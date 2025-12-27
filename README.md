@@ -1,2 +1,3 @@
 # imcjw
-my aimed is study ts
+I'm CJW,my aimed is study ts
+
