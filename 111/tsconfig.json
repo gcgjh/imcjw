@@ -1,0 +1,140 @@
+{
+    // 参考文档：https://aka.ms/tsconfig（TS官方配置文档）
+    "compilerOptions": {
+        /* ===================== 【文件布局相关配置（核心）】 ===================== */
+        // 1. 编译产物配置：将所有TS编译后的JS输出到单独的dist目录（与TS源文件物理隔离）
+        // 作用：彻底分离源文件和编译产物，避免编辑器同时解析TS/JS导致误报
+        "outDir": "./dist",
+        // 2. 源文件根目录：指定TS源文件的根目录（所有TS文件需放在src目录下）
+        // 作用：编译器仅处理src目录下的TS文件，编译产物会按src的目录结构输出到dist
+        "rootDir": "./src",
+        /* ===================== 【运行环境/语法兼容配置】 ===================== */
+        // 3. 语法兼容配置：编译目标ES版本（ES6：兼容绝大多数现代环境，Node.js 6+、浏览器ES6+）
+        // 注意：ES6是基础兼容版本，若需更高特性可改为ES2020/esnext
+        "target": "ES6",
+        // 模块系统类型（ESNext：支持最新的ESModule语法，import/export）
+        // 适配场景：前端项目/Node.js（package.json中type: module）
+        "module": "ESNext",
+        /* ===================== 【严格类型检查配置（增强类型安全性）】 ===================== */
+        // 4. 开启所有严格类型检查选项（包含noImplicitAny、strictNullChecks等核心规则）
+        // 推荐开启：从根源避免类型不安全的代码，是TS的核心价值体现
+        "strict": true,
+        /* ===================== 【其他实用配置】 ===================== */
+        // 生成sourcemap文件（.js.map），方便调试时将JS报错映射到TS源码行号
+        // 开发环境建议开启，生产环境可关闭（减少文件体积）
+        "sourceMap": true,
+        // 跳过第三方库（node_modules）的类型检查
+        // 作用：加快编译速度，避免第三方库的类型定义错误影响项目编译
+        "skipLibCheck": true,
+        /* ===================== 【可选扩展配置（保留原注释参考）】 ===================== */
+        // 指定要包含的类型声明文件（如Node.js环境需配置["node"]，并安装@types/node）
+        // "types": [],
+        // 指定编译时要包含的库文件（如ES6特性需配置["es6", "dom"]）
+        // "lib": ["esnext"],
+        // 对索引访问添加undefined检查（避免访问不存在的索引导致运行时错误）
+        // "noUncheckedIndexedAccess": true,
+        // 严格校验可选属性的类型（区分undefined和null）
+        // "exactOptionalPropertyTypes": true,
+        // 生成类型声明文件（.d.ts），供其他TS项目引用当前代码的类型（开发库时开启）
+        // "declaration": true,
+        // 为.d.ts文件生成sourcemap（调试类型声明时使用）
+        // "declarationMap": true,
+        // JSX语法编译模式（React项目需配置，非React项目可注释）
+        // "jsx": "react-jsx",
+        // 强制模块语法字面量（区分类型导入和值导入）
+        // "verbatimModuleSyntax": true,
+        // 强制每个文件都是独立模块（避免全局作用域污染）
+        // "isolatedModules": true
+    },
+    /* ===================== 【文件包含/排除规则】 ===================== */
+    // 包含所有需要处理的TS文件：src目录下所有.ts/.tsx文件（递归子目录）
+    "include": [
+        "src/**/*.ts", // 匹配src下所有.ts文件
+        "src/**/*.tsx" // 匹配src下所有.tsx文件（React项目用）
+    ],
+    // 排除不需要处理的文件（避免编译器解析无关文件）
+    "exclude": [
+        "node_modules", // 排除第三方依赖（无需编译）
+        "**/*.js", // 排除所有JS文件（避免和TS文件冲突，解决编辑器误报）
+        "**/*.js.map", // 排除sourcemap文件
+        "./dist" // 排除编译产物目录（避免循环编译）
+    ]
+}
+
+// {
+//     // 参考文档：https://aka.ms/tsconfig（TS官方配置文档）
+//     "compilerOptions": {
+//         /* ===================== 【文件布局相关配置】 ===================== */
+//         // 指定TS源文件的根目录（编译时只会处理该目录下的文件）
+//         // 注释说明：若启用，需将所有TS文件放在./src目录，编译产物会按src的目录结构输出到outDir
+//         // "rootDir": "./src",
+//         // 指定编译后JS文件的输出目录（隔离源文件和产物文件，避免TS/JS混放）
+//         // 注释说明：启用后，编译后的JS、d.ts、sourcemap等文件会输出到./dist目录
+//         // "outDir": "./dist",
+//         /* ===================== 【运行环境相关配置】 ===================== */
+//         // 模块系统类型（nodenext：匹配Node.js最新的模块解析规则，支持CommonJS/ESModule混合）
+//         // 适用场景：Node.js项目（尤其是使用package.json "type": "module"的场景）
+//         "module": "nodenext",
+//         // 编译目标ES版本（esnext：支持最新的ES语法，如ES2025+特性）
+//         // 注意：目标版本越高，兼容性越差，需确保运行环境支持（Node.js 18+、现代浏览器）
+//         "target": "esnext",
+//         // 指定要包含的类型声明文件（空数组：不自动引入任何全局类型）
+//         // 注释说明：若需Node.js类型（如__dirname、process），需改为["node"]并安装@types/node
+//         "types": [],
+//         // 【Node.js环境专用配置（当前注释掉）】
+//         // 指定编译时要包含的库文件（esnext：包含最新ES特性的类型定义）
+//         // "lib": ["esnext"],
+//         // 引入Node.js的全局类型（需先执行 npm install -D @types/node）
+//         // "types": ["node"],
+//         /* ===================== 【其他输出文件配置】 ===================== */
+//         // 生成sourcemap文件（.js.map），方便调试时映射到TS源码（开发环境建议开启）
+//         "sourceMap": true,
+//         // 生成类型声明文件（.d.ts），供其他TS项目引用当前代码的类型
+//         // 适用场景：开发库/组件时开启，方便使用者获得类型提示
+//         "declaration": true,
+//         // 为.d.ts文件生成sourcemap（方便调试类型声明和源码的关联）
+//         "declarationMap": true,
+//         /* ===================== 【严格类型检查配置（增强类型安全性）】 ===================== */
+//         // 对索引访问添加undefined检查（如obj[key]会被推断为T | undefined）
+//         // 作用：避免访问不存在的索引导致的运行时错误
+//         "noUncheckedIndexedAccess": true,
+//         // 严格校验可选属性的类型（可选属性只能赋值为对应类型或undefined，不能赋值为null）
+//         // 作用：区分undefined（未赋值）和null（显式空值），避免类型模糊
+//         "exactOptionalPropertyTypes": true,
+//         /* ===================== 【代码风格/语法检查配置（当前注释掉）】 ===================== */
+//         // 要求函数所有分支都有显式返回值（避免隐式返回undefined）
+//         // "noImplicitReturns": true,
+//         // 要求子类重写父类方法时必须加override关键字（避免误写方法名）
+//         // "noImplicitOverride": true,
+//         // 禁止声明未使用的局部变量（减少代码冗余）
+//         // "noUnusedLocals": true,
+//         // 禁止声明未使用的函数参数（减少代码冗余）
+//         // "noUnusedParameters": true,
+//         // 要求switch语句的每个case都有break/return，禁止穿透（避免逻辑错误）
+//         // "noFallthroughCasesInSwitch": true,
+//         // 禁止通过索引签名访问属性（如obj['prop']），必须用点语法（obj.prop）
+//         // 作用：强制更严格的属性访问方式，避免拼写错误
+//         // "noPropertyAccessFromIndexSignature": true,
+//         /* ===================== 【官方推荐的核心配置】 ===================== */
+//         // 开启所有严格类型检查选项（包含noImplicitAny、strictNullChecks等）
+//         // 核心作用：从根源避免类型不安全的代码，是TS类型校验的核心开关
+//         "strict": true,
+//         // JSX语法的编译模式（react-jsx：适配React 17+的新JSX转换，无需引入React）
+//         // 适用场景：React项目，非React项目可改为"preserve"或注释
+//         "jsx": "react-jsx",
+//         // 强制模块语法的字面量（如import/export必须显式写type，区分类型导入和值导入）
+//         // 作用：避免类型导入被打包到JS中，提升编译效率
+//         "verbatimModuleSyntax": true,
+//         // 强制每个文件都是独立模块（即使没有import/export，也不会污染全局作用域）
+//         // 作用：避免全局作用域变量冲突，符合ESModule规范
+//         "isolatedModules": true,
+//         // 检查导入语句的副作用（禁止导入无副作用的模块，如import 'xxx'但xxx无副作用）
+//         // 作用：减少无用的导入，优化打包体积
+//         "noUncheckedSideEffectImports": true,
+//         // 强制将所有文件视为模块（即使没有import/export，也不会暴露到全局）
+//         // 作用：彻底避免全局变量冲突，解决编辑器误报“重复声明”问题
+//         "moduleDetection": "force",
+//         // 跳过第三方库（node_modules）的类型检查（加快编译速度，避免库的类型错误影响项目）
+//         "skipLibCheck": true
+//     }
+// }
